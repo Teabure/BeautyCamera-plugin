@@ -1,0 +1,34 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 33
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 33
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    // uni-app 引擎 API 桩：仅编译期使用，运行时由宿主 App 的 uni 引擎提供，不会打进 aar
+    compileOnly project(':stub')
+    // Kotlin 运行时由宿主 uni App（本身基于 Kotlin 构建）提供，仅编译期依赖
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:1.7.20"
+}
