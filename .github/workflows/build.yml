@@ -18,11 +18,13 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Accept SDK licenses
-        run: yes | sdkmanager --licenses || true
+      - name: Prepare Android SDK
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          SDKMANAGER=$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager | head -n1)
+          echo "Using sdkmanager: $SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses || true
+          "$SDKMANAGER" "platforms;android-33" "build-tools;33.0.0"
 
       - name: Build AAR (release)
         uses: gradle/gradle-build-action@v3
